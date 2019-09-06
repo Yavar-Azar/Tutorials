@@ -1,0 +1,46 @@
+&CONTROL
+                       title = 'GaAs2',
+                 calculation = 'scf' ,
+                restart_mode = 'from_scratch' ,
+                      outdir = './' ,
+                      wfcdir = './' ,
+                  pseudo_dir = './' ,
+                      prefix = 'GaAs2',
+                  wf_collect = .true. ,
+                     tstress = .true. ,
+                     tprnfor = .true. ,
+ /
+&SYSTEM
+                        ibrav = 1,
+                   celldm(1) = 10.866264585,
+                         nat = 8,
+                        ntyp = 2,
+                     ecutwfc = 30 ,
+                     ecutrho = 240 ,
+                 occupations = 'smearing' ,
+                    smearing = 'gaussian' ,
+                     degauss = 0.005,
+ /
+ &ELECTRONS
+            electron_maxstep = 200,
+                    conv_thr = 1.0D-7 ,
+                 mixing_mode = 'plain' ,
+                 mixing_beta = 0.1D0 ,
+                 mixing_ndim = 10,
+             diagonalization = 'david' ,
+ /
+ATOMIC_SPECIES
+Ga   69.72    ga_pbe_v1.4.uspp.F.UPF
+As   74.92    as_pbe_v1.uspp.F.UPF
+
+ATOMIC_POSITIONS crystal
+Ga 0.00000 0.00000 0.00000
+As 0.75000 0.75000 0.75000
+Ga 0.5  0.5  0.0
+Ga 0.0 0.5 0.5
+Ga 0.5 0.0 0.5
+As 0.25 0.75 0.25
+As 0.25 0.25 0.75
+As 0.75 0.25 0.25
+K_POINTS automatics
+3 3 3 0 0 0
