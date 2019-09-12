@@ -157,4 +157,4 @@ At the first step one can plot total energy vs. above variables:
 
 
 
-$$\delta$$
+$$\delta$$.
