@@ -1,16 +1,17 @@
 # Introduction to Quantum_ESPRESSO
-Simple tools for the run, analyze and post-process quantum-ESPRESSO calculations
 
-- Basic Linux Commands
-- Basic python commands
-- [Atomistic simulation environment (ASE)](https://wiki.fysik.dtu.dk/ase/index.html)
+
+
+## Table of Contents
+1. [Linux commands](#Basic Linux Commands)
+2. [Start](#Getting started)
+
+
 
 ## Basic Linux Commands
+![](Figures/linuxlogo.png)
 
 
-<p align="center">
-<img src="Figures/linuxlogo.png" width="100" />
-</p>
 
 |Command            |  Desription                        |
 |-------------------|-----------------------------------------------------------------------------------------------------|
@@ -33,7 +34,10 @@ Simple tools for the run, analyze and post-process quantum-ESPRESSO calculations
 | *more file*       | output the contents of file                                                                         |
 | *head file*       | output the first 10 lines of file                                                                   |
 | *tail file*       | output the last 10 lines of file                                                                    |
-| *tail -f file*    | output the contents of file as it                                                                   |
+| *tail -f file*    | output the content                                                                 |
+
+
+
 
 
 
@@ -44,13 +48,11 @@ Simple tools for the run, analyze and post-process quantum-ESPRESSO calculations
 
 ###  Bash scripting (`for & while`  loops)
 
-+ Example 1. For Loop
++ Example 1. (For Loop)
 
-    `for i in {1..10}; do echo i ; done`
+    `for i in {1..10}; do echo $i ; done`
 
-
-
-+ Example 2. While loop
++ Example 2.(While loop)
     ```Bash
     ls > list
     `while read -r fname
@@ -58,14 +60,55 @@ Simple tools for the run, analyze and post-process quantum-ESPRESSO calculations
     done < list
     ```
 
-### Fisrt calculation
+## Getting Started
+### Installation  
 
-+Excercise 1. (INPUT file)
-- getting exp or computed structure from online databases
-- generating input files using easy tools
-- visulizing  them using _xcrysden_, _VESTA_, _gdis_, or _ase-gui_ ...
+1. Download package from [Quantum-ESPRESSO webpage](https://www.quantum-espresso.org)
+2. make a directory and copy downloaded file into your directory and extract it
+```#!/usr/bin/env bash
+mkdir SOURCE
+cd SOURCE
+cp ~/Downloads/q-e-qe-6.4.1.tar.gz .
+tar -xvf q-e-qe-6.4.1.tar.gz
+cd q-e-qe-6.4.1
+```
+3. run config file and then make main codes in the pakage (pw, pp, ld1, neb, cp, ...)  
+We can run `make all` but it is not recommended at this level
+```#!/usr/bin/env bash
+./configure
+make pw
+make pp
+make cp
+make ld1
+make ph
+make neb
+```
+! Check **bin** directory to find `pw.x pp.x cp.x ...` there
 
-#### SCF and convergency test for GaAs
+4. To Set PATH on Linux (you can add all executables in the bin dir to your path ),  use `pwd` command to find your QE top directory path and then copy following line to the end of your `.bashrc`
+``` #!/usr/bin/env bash
+export PATH=QETOPDIR/bin:$PATH
+```
+
+5. **VISULIZER installation (XCRYSDEN)**  
+__xcrysden__   is a standard visulizer for qe input/output files and If you are **ubuntu** user you can easily type `
+sudo apt install xcrysden ` to install it from ubuntu rep.
+
+6. **PWgui**  is a GUI for PWscf based programs from Quantum-ESPRESSO integrated suite of codes for electronic structure calculations and materials modeling. [Download Link](http://www-k3.ijs.si/kokalj/pwgui)  
+This code can be used to generate input files for different packages.
+
+### Excercise 1. (make INPUT file & run a simple calculations)
+- Generating input files using easy tools  
+PWgui is an easy grahical tool for beginners to create an input file with basic knowledge about the system, for example we know that "The atoms in crystalline silicon are arranged in a diamond lattice structure with a lattice constant of 5.4307Å (10.261 Bohr)."
+-- It should be noted Quantum-ESRESSO works with pseudopotentials, then we need to download and put pseudopotential file in an appropriate address
+
+
+- after choosing your parameters for the input file save final setting in an input, you can find a sample input file for silicon here [sample.pw.in](Files/sample.pw.in)
+
+
+
+
+### SCF and convergency test for GaAs
 In this exercise we will first perform simple scf (self-consistent field) calculations on GaAs structure
 
 + STEP 1. Use Xcrysden to view the structure of input file and explore different utilities
@@ -84,22 +127,22 @@ The plane-wave cut-off for wavefunctions, `ecutwfc` has been set to 30 Ry. Since
 
 *Hands on*
 
- 
+
 ```Bash
       cd /WORKSHOP_QE/BULK/SECTION-SCF
-      xcrysden --pwi GaAs.scf.in 
+      xcrysden --pwi GaAs.scf.in
       pw.x < GaAs.scf.in | tee GaAs.scf.out
 ```
-      
-      
-   
+
+
+
 + STEP 4. How to extract data from output file?
- 
+
    For total energy:  `grep ! GaAs.scf.out`\
    For Total Force:  `grep Total force GaAs.scf.out`
-   
+
    For **electron number** : `grep "of electrons    " GaAs.scf.out`
-   
+
    Whts is the number of electrons? and Why?
 
    *read first lines of your pseudo files !!!*
@@ -115,4 +158,3 @@ At the first step one can plot total energy vs. above variables:
 
 
 $$\delta$$
-
