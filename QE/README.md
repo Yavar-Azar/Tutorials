@@ -1,10 +1,20 @@
+
 # Introduction to Quantum_ESPRESSO
 
+Table of Contents
+=================
+
+* [Basic Linux Commands](#basic-linux-commands)
+   * [Bash scripting (for &amp; while  loops)](#bash-scripting-for--while--loops)
+* [Getting Started](#getting-started)
+   * [Installation](#installation)
+   * [Excercise 1. (make INPUT file &amp; run a simple calculations)](#excercise-1-make-input-file--run-a-simple-calculations)
+   * [SCF and convergency test for GaAs](#scf-and-convergency-test-for-gaas)
 
 
-## Table of Contents
-1. [Linux commands](#Basic Linux Commands)
-2. [Start](#Getting started)
+
+
+
 
 
 
@@ -65,7 +75,7 @@
 
 1. Download package from [Quantum-ESPRESSO webpage](https://www.quantum-espresso.org)
 2. make a directory and copy downloaded file into your directory and extract it
-```#!/usr/bin/env bash
+```bash
 mkdir SOURCE
 cd SOURCE
 cp ~/Downloads/q-e-qe-6.4.1.tar.gz .
@@ -74,7 +84,7 @@ cd q-e-qe-6.4.1
 ```
 3. run config file and then make main codes in the pakage (pw, pp, ld1, neb, cp, ...)  
 We can run `make all` but it is not recommended at this level
-```#!/usr/bin/env bash
+```bash
 ./configure
 make pw
 make pp
@@ -86,7 +96,7 @@ make neb
 ! Check **bin** directory to find `pw.x pp.x cp.x ...` there
 
 4. To Set PATH on Linux (you can add all executables in the bin dir to your path ),  use `pwd` command to find your QE top directory path and then copy following line to the end of your `.bashrc`
-``` #!/usr/bin/env bash
+```bash
 export PATH=QETOPDIR/bin:$PATH
 ```
 
@@ -99,42 +109,45 @@ This code can be used to generate input files for different packages.
 
 ### Excercise 1. (make INPUT file & run a simple calculations)
 - Generating input files using easy tools  
-PWgui is an easy grahical tool for beginners to create an input file with basic knowledge about the system, for example we know that "The atoms in crystalline silicon are arranged in a diamond lattice structure with a lattice constant of 5.4307Å (10.261 Bohr)."
+PWgui is an easy grahical tool for beginners to create an input file with basic knowledge about the system, for example we know that the atoms in crystalline silicon are arranged in a diamond lattice structure with a lattice constant of 5.4307Å (10.261 Bohr).
 -- It should be noted Quantum-ESRESSO works with pseudopotentials, then we need to download and put pseudopotential file in an appropriate address
 
 
 - after choosing your parameters for the input file save final setting in an input, you can find a sample input file for silicon here [sample.pw.in](Files/sample.pw.in)
 
+- open [sample.pw.in](Files/sample.pw.in) with xcrysden and try to find some of utilities in this visualizer (for example try to show primitive/conventional cell, Brillouin zone, distances ...)
 
+- run pw.x code using PWgui or from command line :  
+`pw.x < sample.pw.in | tee sample.pw.out`  
+and after run analyse output file carefully  
+`grep !  sample.pw.out`  
+`grep "Force" sample.pw.out`
 
+In the next example we will test above parameters for diatomic structure
 
-### SCF and convergency test for GaAs
+### Exercise 2. (SCF run and convergency test)
+
 In this exercise we will first perform simple scf (self-consistent field) calculations on GaAs structure
+
+
+![](Figures/GaAs.png)
 
 + STEP 1. Use Xcrysden to view the structure of input file and explore different utilities
 
-+ STEP 2. Open and read the input file [GaAs.scf.in](Files/GaAs.scf.in)    
-Note that in the `&control` namelist, we have specified that we want to run an **scf** calculation.       
-GaAs has the diamond structure. Note that we are using a (primitive) unit cell that corresponds to an fcc lattice, with 2 atoms in the atomic basis.      
-Notice the values given for `ibrav, nat, ntyp` and ATOMIC-POSITIONS.         
-In this file, the lattice constant **celldm(1)** has been set equal to 10.86626 bohr, which is the experimental value. \\
-A 2×2×2 Monkhorst-Pack  <span style="color:purple"> k-point mesh </span> has been used.      
-The plane-wave cut-off for wavefunctions, `ecutwfc` has been set to 30 Ry. Since we are not using an ultrasoft pseudopotential.   
-
-
++ STEP 2. Open and read the input file [GaAs.scf.in](Files/GaAs.scf.in) Note that in the `&control` namelist, we have specified that we want to run an **scf** calculation. GaAs has the diamond structure. Note that we are using a (primitive) unit cell that corresponds to an fcc lattice, with 2 atoms in the atomic basis.       
+Notice the values given for `ibrav, nat, ntyp` and ATOMIC-POSITIONS.    In this file, the lattice constant **celldm(1)** has been set equal to 10.86626 bohr, which is the experimental value.  
+A `2×2×2` Monkhorst-Pack  <span style="color:violet"> k-point mesh </span> has been used.      
+The plane-wave **cut-off** for wavefunctions, `ecutwfc` has been set to 30 Ry. Since we are not using an ultrasoft pseudopotential.   
 
 + STEP 3. Run your input using following command
 
 *Hands on*
-
 
 ```Bash
       cd /WORKSHOP_QE/BULK/SECTION-SCF
       xcrysden --pwi GaAs.scf.in
       pw.x < GaAs.scf.in | tee GaAs.scf.out
 ```
-
-
 
 + STEP 4. How to extract data from output file?
 
@@ -149,12 +162,13 @@ The plane-wave cut-off for wavefunctions, `ecutwfc` has been set to 30 Ry. Since
 
 
 + STEP 5. Covergency test for K-points and ecutwf
-In this step write a simple script file:Kloop.sh (k-mesh) and  file:ecutloop.sh (ecut) to run scf per different values of k-points and ecut        
-Plot a Physical quantity vs. variables and find converhency limit for your data     
-At the first step one can plot total energy vs. above variables:     
+In this step write a simple script file:Kloop.sh (k-mesh) and  [ecutloop.sh](Files/cutloop.sh) (ecut) to run scf per different values of k-points and ecut Plot a Physical quantity vs. variables and find convergency limit for your data At the first step one can plot total energy vs. above variables:     
 
-<img src="Figures/ecut.png" width="200" />
+![](Figures/ecut.png)
 
 
 
-$$\delta$$
+
+for k_points run [kloop.sh](Files/Kloop.sh) and extract total energy as a function of k-mesh
+
+![](Figures/kmesh.png)
