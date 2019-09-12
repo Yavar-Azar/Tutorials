@@ -153,7 +153,6 @@ In this step write a simple script file:Kloop.sh (k-mesh) and  file:ecutloop.sh 
 Plot a Physical quantity vs. variables and find converhency limit for your data     
 At the first step one can plot total energy vs. above variables:     
 
-<img src="Figures/ecut.png" width="200" />
 
 
 
