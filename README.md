@@ -1,4 +1,4 @@
-# Workshop List
+# TUTORIALS
 
 
 ## Quantum-ESPRESSO
