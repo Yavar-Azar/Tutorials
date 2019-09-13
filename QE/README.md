@@ -9,7 +9,7 @@ Table of Contents
 * [Getting Started](#getting-started)
    * [Installation](#installation)
    * [Excercise 1. (make INPUT file &amp; run a simple calculations)](#excercise-1-make-input-file--run-a-simple-calculations)
-   * [SCF and convergency test for GaAs](#scf-and-convergency-test-for-gaas)
+   * [Exercise 2. (SCF run and convergency test)](#exercise-2-scf-run-and-convergency-test)
 
 
 
@@ -162,12 +162,9 @@ The plane-wave **cut-off** for wavefunctions, `ecutwfc` has been set to 30 Ry. S
 
 
 + STEP 5. Covergency test for K-points and ecutwf
-In this step write a simple script file:Kloop.sh (k-mesh) and  [ecutloop.sh](Files/cutloop.sh) (ecut) to run scf per different values of k-points and ecut Plot a Physical quantity vs. variables and find convergency limit for your data At the first step one can plot total energy vs. above variables:     
+In this step write a simple script [ecutloop.sh](Files/ecutloop.sh) (ecut) to run scf per different values of k-points and ecut Plot a Physical quantity vs. variables and find convergency limit for your data At the first step one can plot total energy vs. above variables:     
 
 ![](Figures/ecut.png)
-
-
-
 
 for k_points run [kloop.sh](Files/Kloop.sh) and extract total energy as a function of k-mesh
 
