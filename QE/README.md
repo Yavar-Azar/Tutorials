@@ -106,6 +106,8 @@ sudo apt install xcrysden ` to install it from ubuntu rep.
 
 6. **PWgui**  is a GUI for PWscf based programs from Quantum-ESPRESSO integrated suite of codes for electronic structure calculations and materials modeling. [Download Link](http://www-k3.ijs.si/kokalj/pwgui)  
 This code can be used to generate input files for different packages.
+7. Download examples from [here](https://github.com/Yavar-Azar/Tutorials/tree/master/QE/INPUTS
+)
 
 ### Excercise 1. (make INPUT file & run a simple calculations)
 - Generating input files using easy tools  
@@ -158,11 +160,11 @@ The plane-wave **cut-off** for wavefunctions, `ecutwfc` has been set to 30 Ry. S
 
    Whts is the number of electrons? and Why?
 
-   *read first lines of your pseudo files !!!*
+   > read first lines of your pseudo files
 
 
 + STEP 5. Covergency test for K-points and ecutwf
-In this step write a simple script [ecutloop.sh](Files/ecutloop.sh) (ecut) to run scf per different values of k-points and ecut Plot a Physical quantity vs. variables and find convergency limit for your data At the first step one can plot total energy vs. above variables:     
+In this step write a simple script [ecutloop.sh](Files/ecutloop.sh) to run scf per different values of k-points and ecut Plot a Physical quantity vs. variables and find convergency limit for your data At the first step one can plot total energy vs. above variables:     
 
 ![](Figures/ecut.png)
 
